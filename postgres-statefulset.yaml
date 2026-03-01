@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: bharatgpt-postgres
+  namespace: default
+spec:
+  serviceName: "bharatgpt-postgres"
+  replicas: 1 # Scale manually via Operator for HA
+  selector:
+    matchLabels:
+      app: bharatgpt-postgres
+  template:
+    metadata:
+      labels:
+        app: bharatgpt-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bharatgpt-secrets
+                  key: DB_PASSWORD
+            - name: POSTGRES_DB
+              value: "bharatgpt"
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 50Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bharatgpt-postgres
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: bharatgpt-postgres
