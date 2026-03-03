@@ -148,19 +148,26 @@ This is the enterprise-level architecture built for scalability and long-term de
 
 # 🧩 Architecture Philosophy
 
-This backend follows a **Clea/backend
-├── app
-│ ├── main.py
-│ ├── auth/
-│ ├── chat/
-│ ├── compliance/
-│ ├── models/
-│ ├── schemas/
-│ ├── services/
-├── Dockerfile
-├── docker-compose.yml
-├── nginx.conf
-└── requirements.txtn Modular Service Architecture**:
+backend/ <br>
+│ <br>
+├── app/    <br>
+├── main.py                # Application entry point <br>
+│ <br>
+├── auth/                  # Authentication & Authorization <br>
+│ <br> 
+├── chat/                  # AI Interview & Chat Engine  <br>
+├── compliance/            # Policy Enforcement & Validation <br>
+│ <br>
+├── models/                # Database Models <br>
+│<br>
+├── schemas/               # Request/Response Schemas <br>
+│<br>
+└── services/              # Business Logic Layer  <br>
+│ <br>
+├── Dockerfile                 # Container Configuration <br>
+├── docker-compose.yml         # Multi-Container Orchestration <br> 
+├── nginx.conf                 # Reverse Proxy Setup  <br>
+└── requirements.txt           # Python Dependencies  <br>
 
 ---
 
@@ -336,3 +343,4 @@ Creator of Bharat GPT
 
 License  
 Open for innovation and contribution.
+
